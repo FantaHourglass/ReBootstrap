@@ -8,7 +8,7 @@ Install the provided CIA
 All of the needed files are provided so simply run the .bat or .sh, depending on your OS
 
 #Credits
-- Alerdy for the Updater
+- Alerdy for the updater
 - ahezard for nds-bootstrap
 - JoshuaDoes for hosting the builds
 - Rinnegatamante for LPP-3DS
