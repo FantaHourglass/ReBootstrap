@@ -64,7 +64,7 @@ function main()
 				else
 					Screen.debugPrint(5,5, "WiFi is off! Please turn it on and retry!", white, TOP_SCREEN)
 					Screen.debugPrint(5,20, "Press START to go back to Home menu", white, TOP_SCREEN)
-					Screen.debugPrint(5,25, "Press X to go to TWLauncher", white, TOP_SCREEN)
+					Screen.debugPrint(5,35, "Press X to go to TWLauncher", white, TOP_SCREEN)
 					while true do
 						pad = Controls.read()
 						if pad ~= oldPad then
@@ -73,6 +73,8 @@ function main()
 								Screen.waitVblankStart()
 								Screen.flip()
 								System.exit()
+								elseif Controls.check(pad,KEY_X) then
+								System.launchCIA(75252224, SDMC)
 							end
 						end
 					end
