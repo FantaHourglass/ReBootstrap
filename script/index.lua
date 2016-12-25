@@ -1,7 +1,3 @@
-local white = Color.new(255,255,255)
-local green = Color.new(0,255,0)
-local url = "https://joshuadoes.com/projects/3DSHomebrew/BUILDS/nds-bootstrap/bootstrap-dldi.nds"
-
 function unicodify(str)
 	local new_str = ""
 	for i = 1, #str,1 do
@@ -11,16 +7,36 @@ function unicodify(str)
 end
 
 function main()
+	local white = Color.new(255,255,255)
+	local url = "https://dl.joshuadoes.com/?platform=3DS&app=nds-bootstrap-dldi-nds&channel=fresh&version=latest&url&download"
+
+	-- Handle the working directory
+	System.createDirectory("/ReBootstrap")
+	
+	-- Handle the font data
+	local font = Font.load("romfs:/font.ttf")
+	Font.setPixelSizes(font, 16)
+
 	Screen.refresh()
-	Screen.debugPrint(5,5, "nds-bootstrap updater", green, TOP_SCREEN)
-	Screen.debugPrint(5,30, "Press A to update nds-bootstrap", white, TOP_SCREEN)
-	Screen.debugPrint(5,50, "Press START to go to HOME menu", white, TOP_SCREEN)
-	Screen.debugPrint(5,70, "Press X to go to TWLauncher", white, TOP_SCREEN)
-	Screen.debugPrint(5,155, "Thanks to:", white, TOP_SCREEN)
-	Screen.debugPrint(5,170, "Alerdy for the updater", white, TOP_SCREEN)
-	Screen.debugPrint(5,185, "JoshuaDoes for hosting the builds", white, TOP_SCREEN)
-	Screen.debugPrint(5,200, "Rinnegatamante for lpp-3ds", white, TOP_SCREEN)
-	Screen.debugPrint(5,215, "ahezard for nds-bootstrap", white, TOP_SCREEN)
+	
+	-- Top screen
+	Font.print(font, 5,5, "ReBootstrap", white, TOP_SCREEN)
+	Font.print(font, 40, 20, "- Official nds-bootstrap Updater", white, TOP_SCREEN)
+	Font.print(font, 5,50, "Press A to update bootstrap-dldi.nds", white, TOP_SCREEN)
+	Font.print(font, 5,65, "Press START to return to the HOME menu", white, TOP_SCREEN)
+	Font.print(font, 5,80, "Press X to launch TWLoader.", white, TOP_SCREEN)
+	
+	-- Bottom screen
+	Font.print(font, 5,5, "Thanks to the following:", white, BOTTOM_SCREEN)
+	Font.print(font, 10, 25, "Alerdy:", white, BOTTOM_SCREEN)
+	Font.print(font, 45, 40, "- Creating the updater", white, BOTTOM_SCREEN)
+	Font.print(font, 10, 55, "JoshuaDoes:", white, BOTTOM_SCREEN)
+	Font.print(font, 45, 70, "- Hosting the nds-bootstrap builds", white, BOTTOM_SCREEN)
+	Font.print(font, 10, 85, "Rinnegatamante:", white, BOTTOM_SCREEN)
+	Font.print(font, 45, 100, "- Lua Player Plus on the 3DS", white, BOTTOM_SCREEN)
+	Font.print(font, 10, 115, "ahezard:", white, BOTTOM_SCREEN)
+	Font.print(font, 45, 130, "- The nds-bootstrap updates", white, BOTTOM_SCREEN)
+	
 	Screen.waitVblankStart()
 	Screen.flip()
 	while true do
@@ -28,52 +44,111 @@ function main()
 		if pad ~= oldPad then
 			oldPad = pad
 			if Controls.check(pad,KEY_START) then
-				Screen.waitVblankStart()
-				Screen.flip()
-				System.exit()
-			elseif Controls.check(pad,KEY_X) then
-				System.launchCIA(75252224, SDMC)
-			elseif Controls.check(pad,KEY_A) then
 				Screen.refresh()
 				Screen.waitVblankStart()
 				Screen.flip()
 				Screen.clear(TOP_SCREEN)
+				Screen.clear(BOTTOM_SCREEN)
+				Screen.refresh()
+				Screen.waitVblankStart()
+				Screen.flip()
+				Font.unload(font)
+				System.exit()
+			elseif Controls.check(pad,KEY_X) then
+				Screen.refresh()
+				Screen.waitVblankStart()
+				Screen.flip()
+				Screen.clear(TOP_SCREEN)
+				Screen.clear(BOTTOM_SCREEN)
+				Screen.refresh()
+				Screen.waitVblankStart()
+				Screen.flip()
+				System.launchCIA(75252224, SDMC)
+			elseif Controls.check(pad,KEY_A) then
+				Screen.clear(TOP_SCREEN)
+				Screen.clear(BOTTOM_SCREEN)
+				Screen.refresh()
+				Screen.waitVblankStart()
+				Screen.flip()
 				if Network.isWifiEnabled() then
-					Screen.debugPrint(5,5, "Downloading the latest NDS file...", white, TOP_SCREEN)
-					Network.downloadFile(url, "/bootstrap-dldi.nds")
-					Screen.debugPrint(5,20, "File downloaded!", white, TOP_SCREEN)
-					Screen.debugPrint(5,50, "Moving file to /_nds folder", white, TOP_SCREEN)
-					System.renameFile("/bootstrap-dldi.nds","/_nds/bootstrap-dldi.nds")
-					Screen.debugPrint(5,95, "Done!", white, TOP_SCREEN)
-					Screen.debugPrint(5,110, "Press START to go to HOME menu", white, TOP_SCREEN)
-					Screen.debugPrint(5,125, "Press X to go to TWLauncher", white, TOP_SCREEN)
-					
+					Font.print(font, 5,5, "Downloading the latest bootstrap-dldi.nds ...", white, TOP_SCREEN)
+					Screen.waitVblankStart()
+					Screen.flip()
+					Network.downloadFile(url, "/ReBootstrap/bootstrap-dldi.nds")
+					Font.print(font, 5,20, "File downloaded!", white, TOP_SCREEN)
+					Screen.waitVblankStart()
+					Screen.flip()
+					Font.print(font, 5,50, "Moving file to SD:/_nds/bootstrap-dldi.nds ...", white, TOP_SCREEN)
+					Screen.waitVblankStart()
+					Screen.flip()
+					System.renameFile("/ReBootstrap/bootstrap-dldi.nds","/_nds/bootstrap-dldi.nds")
+					Font.print(font, 5,95, "Done!", white, TOP_SCREEN)
+					Screen.waitVblankStart()
+					Screen.flip()
+					Font.print(font, 5,110, "Press START to go back to the Home Menu.", white, TOP_SCREEN)
+					Font.print(font, 5,125, "Press X to go to TWLoader.", white, TOP_SCREEN)
+					Screen.waitVblankStart()
+					Screen.flip()
 					while true do
 						pad = Controls.read()
 						if pad ~= oldPad then
 							oldPad = pad
 							if Controls.check(pad,KEY_START) then
+								Screen.refresh()
 								Screen.waitVblankStart()
 								Screen.flip()
+								Screen.clear(TOP_SCREEN)
+								Screen.clear(BOTTOM_SCREEN)
+								Screen.refresh()
+								Screen.waitVblankStart()
+								Screen.flip()
+								Font.unload(font)
 								System.exit()
 							elseif Controls.check(pad,KEY_X) then
+								Screen.refresh()
+								Screen.waitVblankStart()
+								Screen.flip()
+								Screen.clear(TOP_SCREEN)
+								Screen.clear(BOTTOM_SCREEN)
+								Screen.refresh()
+								Screen.waitVblankStart()
+								Screen.flip()
+								Font.unload(font)
 								System.launchCIA(75252224, SDMC)
 							end
 						end
 					end
 				else
-					Screen.debugPrint(5,5, "WiFi is off! Please turn it on and retry!", white, TOP_SCREEN)
-					Screen.debugPrint(5,20, "Press START to go back to Home menu", white, TOP_SCREEN)
-					Screen.debugPrint(5,35, "Press X to go to TWLauncher", white, TOP_SCREEN)
+					Font.print(font, 5,5, "WiFi is disabled! Please turn it on and try again.!", white, TOP_SCREEN)
+					Font.print(font, 5,20, "Press START to go back to the Home Menu.", white, TOP_SCREEN)
+					Font.print(font, 5,35, "Press X to launch TWLoader.")
+					Screen.waitVblankStart()
+					Screen.flip()
 					while true do
 						pad = Controls.read()
 						if pad ~= oldPad then
 							oldPad = pad
 							if Controls.check(pad,KEY_START) then
+								Screen.refresh()
 								Screen.waitVblankStart()
 								Screen.flip()
+								Screen.clear(TOP_SCREEN)
+								Screen.clear(BOTTOM_SCREEN)
+								Screen.refresh()
+								Screen.waitVblankStart()
+								Screen.flip()
+								Font.unload(font)
 								System.exit()
-								elseif Controls.check(pad,KEY_X) then
+							elseif Controls.check(pad,KEY_X) then
+								Screen.refresh()
+								Screen.waitVblankStart()
+								Screen.flip()
+								Screen.clear(TOP_SCREEN)
+								Screen.clear(BOTTOM_SCREEN)
+								Screen.refresh()
+								Screen.waitVblankStart()
+								Screen.flip()
+								Font.unload(font)
 								System.launchCIA(75252224, SDMC)
 							end
 						end
