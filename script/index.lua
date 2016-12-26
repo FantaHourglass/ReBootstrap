@@ -8,6 +8,7 @@ end
 
 function main()
 	local white = Color.new(255,255,255)
+	local green = Color.new(0,255,0)
 	local url = "https://dl.joshuadoes.com/?platform=3DS&app=nds-bootstrap-dldi-nds&channel=fresh&version=latest&url&download"
 
 	-- Handle the working directory
@@ -15,12 +16,12 @@ function main()
 	
 	-- Handle the font data
 	local font = Font.load("romfs:/font.ttf")
-	Font.setPixelSizes(font, 16)
+	Font.setPixelSizes(font, 18)
 
 	Screen.refresh()
 	
 	-- Top screen
-	Font.print(font, 5,5, "ReBootstrap", white, TOP_SCREEN)
+	Font.print(font, 5,5, "ReBootstrap", green, TOP_SCREEN)
 	Font.print(font, 40, 20, "- Official nds-bootstrap Updater", white, TOP_SCREEN)
 	Font.print(font, 5,50, "Press A to update bootstrap-dldi.nds", white, TOP_SCREEN)
 	Font.print(font, 5,65, "Press START to return to the HOME menu", white, TOP_SCREEN)
@@ -28,14 +29,10 @@ function main()
 	
 	-- Bottom screen
 	Font.print(font, 5,5, "Thanks to the following:", white, BOTTOM_SCREEN)
-	Font.print(font, 10, 25, "Alerdy:", white, BOTTOM_SCREEN)
-	Font.print(font, 45, 40, "- Creating the updater", white, BOTTOM_SCREEN)
-	Font.print(font, 10, 55, "JoshuaDoes:", white, BOTTOM_SCREEN)
-	Font.print(font, 45, 70, "- Hosting the nds-bootstrap builds", white, BOTTOM_SCREEN)
-	Font.print(font, 10, 85, "Rinnegatamante:", white, BOTTOM_SCREEN)
-	Font.print(font, 45, 100, "- Lua Player Plus on the 3DS", white, BOTTOM_SCREEN)
-	Font.print(font, 10, 115, "ahezard:", white, BOTTOM_SCREEN)
-	Font.print(font, 45, 130, "- The nds-bootstrap updates", white, BOTTOM_SCREEN)
+	Font.print(font, 10, 25, "Alerdy, for creating the updater", white, BOTTOM_SCREEN)
+	Font.print(font, 10, 55, "JoshuaDoes, for hosting the nds-bootstrap builds", white, BOTTOM_SCREEN)
+	Font.print(font, 10, 85, "Rinnegatamante, for Lua Player Plus 3DS", white, BOTTOM_SCREEN)
+	Font.print(font, 10, 115, "ahezard, for nds-bootstrap", white, BOTTOM_SCREEN)
 	
 	Screen.waitVblankStart()
 	Screen.flip()
